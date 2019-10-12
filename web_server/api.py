@@ -98,9 +98,9 @@ def edit_tag():
     resp = dumps({"code": code, "res": res})
     return Response(resp, mimetype="application/json")
 
-@app.route("/api/find_tags", methods=["POST"])
-def find_tags():
+@app.route("/api/get_tags", methods=["POST"])
+def get_tags():
     data = request.get_json()
-    code, res = tag.find_tags(data.get("name_query", ""))
+    code, res = tag.get_tags(data.get("ids", []))
     resp = dumps({"code": code, "res": res})
     return Response(resp, mimetype="application/json")

@@ -3,15 +3,17 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 3 | General Form Elements</title>
+    <title>Don't Starve!</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Vue-multiselect -->
+    <link rel="stylesheet" href="plugins/vue/vue-multiselect.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="origin/css/adminlte.min.css">
+    <link rel="stylesheet" href="plugins/adminlte/css/adminlte.min.css">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -30,34 +32,18 @@
             <!-- Notifications Dropdown Menu -->
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="far fa-bell"></i>
-                    <span class="badge badge-warning navbar-badge">15</span>
+                    <i class="fa fa-shopping-cart"></i>
+                    <span class="badge badge-warning navbar-badge">0</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <span class="dropdown-item dropdown-header">15 Notifications</span>
+                    <span class="dropdown-item-text dropdown-header">Restaurants Cart</span>
                     <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item">
                         <i class="fas fa-envelope mr-2"></i> 4 new messages
                         <span class="float-right text-muted text-sm">3 mins</span>
                     </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="fas fa-users mr-2"></i> 8 friend requests
-                        <span class="float-right text-muted text-sm">12 hours</span>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="fas fa-file mr-2"></i> 3 new reports
-                        <span class="float-right text-muted text-sm">2 days</span>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                    <a href="cart" class="dropdown-item dropdown-footer">Check out!</a>
                 </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#">
-                    <i class="fas fa-th-large"></i>
-                </a>
             </li>
         </ul>
     </nav>
@@ -66,12 +52,12 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
-        <a href="index3.html" class="brand-link">
-            <img src="origin/img/AdminLTELogo.png"
+        <a href="./" class="brand-link">
+            <img src="img/D.jpg"
                      alt="AdminLTE Logo"
                      class="brand-image img-circle elevation-3"
                      style="opacity: .8">
-            <span class="brand-text font-weight-light">AdminLTE 3</span>
+            <span class="brand-text font-weight-light">Don't Starve!</span>
         </a>
 
         <!-- Sidebar -->
@@ -79,10 +65,10 @@
             <!-- Sidebar user (optional) -->
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                 <div class="image">
-                    <img src="origin/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                    <img src="img/QieGuevara.jpeg" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
-                    <a href="#" class="d-block">Alexander Pierce</a>
+                    <a href="http://www.comradestukov.xin" class="d-block">SB of Gay School</a>
                 </div>
             </div>
 
@@ -91,11 +77,31 @@
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                     <!-- Add icons to the links using the .nav-icon class
                              with font-awesome or any other icon font library -->
-                    <li class="nav-header">MISCELLANEOUS</li>
+                    <li class="nav-header">RESTAURANTS</li>
                     <li class="nav-item">
-                        <a href="https://adminlte.io/docs/3.0" class="nav-link">
-                            <i class="nav-icon fas fa-file"></i>
-                            <p>Documentation</p>
+                        <a href="find_restaurants" class="nav-link" id="nav_find_restaurants">
+                            <i class="nav-icon fas fa-search"></i>
+                            <p>Find Restaurants</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="add_restaurant" class="nav-link" id="nav_add_restaurant">
+                            <i class="nav-icon fas fa-plus"></i>
+                            <p>Add Restaurant</p>
+                        </a>
+                    </li>
+                    <li class="nav-header">TAGS</li>
+                    <li class="nav-item">
+                        <a href="find_tags" class="nav-link" id="nav_find_tags">
+                            <i class="nav-icon fas fa-tag"></i>
+                            <p>Manage Tags</p>
+                        </a>
+                    </li>
+                    <li class="nav-header">CART</li>
+                    <li class="nav-item">
+                        <a href="cart" class="nav-link" id="nav_cart">
+                            <i class="nav-icon fas fa-shopping-cart"></i>
+                            <p>Restaurant Cart</p>
                         </a>
                     </li>
                 </ul>
@@ -106,16 +112,16 @@
     </aside>
 
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
+    <div id="frame" class="content-wrapper">
     </div>
     <!-- /.content-wrapper -->
     
     <!-- Footer -->
     <footer class="main-footer">
         <div class="float-right d-none d-sm-block">
-            <b>Version</b> 3.0.0-rc.3
+            <b>Version</b> 0.1
         </div>
-        <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
+        <strong>Copyright &copy; 2019 <a href="http://www.comradestukov.xin">chenty</a>.</strong> All rights
         reserved.
     </footer>
     <!-- ./footer -->
@@ -126,7 +132,19 @@
 <script src="plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Vue -->
+<script src="plugins/vue/vue.js"></script>
+<!-- Vue-multiselect -->
+<script src="plugins/vue/vue-multiselect.min.js"></script>
 <!-- AdminLTE App -->
-<script src="origin/js/adminlte.min.js"></script>
+<script src="plugins/adminlte/js/adminlte.min.js"></script>
+<script>
+$(
+function ()
+{
+    $("#frame").load("add_restaurant.html");
+}
+);
+</script>
 </body>
 </html>

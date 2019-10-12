@@ -30,7 +30,8 @@ def add_tag(name, session=None):
         return False, return_code["TAG_EXIST"], None
     t = Tag(name=name)
     session.add(t)
-    return True, return_code["OK"], None
+    session.flush()
+    return True, return_code["OK"], {"id": t.id, "name": t.name}
 
 @get_session
 def delete_tag(id, session=None):
@@ -41,7 +42,7 @@ def delete_tag(id, session=None):
     if not t.count():
         return False, return_code["TAG_NOT_EXIST"], None
     session.delete(t.first())
-    return True, return_code["OK"], None
+    return True, return_code["OK"], id
 
 @get_session
 def edit_tag(id, name, session=None):
@@ -59,13 +60,12 @@ def edit_tag(id, name, session=None):
     return True, return_code["OK"], {"id": id, "name": name}
 
 @get_session
-def find_tags(name_query, session=None):
-    valid = True if not name_query else check_tag_name(name_query)
+def get_tags(ids, session=None):
+    valid = isinstance(ids, list) and all([check_tag_id(x) for x in ids])
     if not valid:
         return False, return_code["INVALID_DATA"], None
     q = session.query(Tag)
-    if name_query:
-        name_query = re.sub(r"\s+", "%", " " + name_query.replace("%", " ") + " ")
-        q = q.filter(Tag.name.ilike(name_query))
+    if ids:
+        q = q.filter(Tag.id.in_(ids))
     t = q.all()
     return True, return_code["OK"], [{"id": x.id, "name": x.name} for x in t]

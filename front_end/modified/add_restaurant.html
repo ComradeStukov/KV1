@@ -1,0 +1,123 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>New Restaurant</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- column -->
+            <div class="col-md-12">
+                <!-- Horizontal Form -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title"> “Say pal, you don't look so good. You better find something to eat before night comes!”</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form id="restaurant" class="form-horizontal">
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <label for="name" class="col-sm-2 col-form-label">Name</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="name" placeholder="Name" v-model="name">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="branch" class="col-sm-2 col-form-label">Branch</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="branch" placeholder="Branch" v-model="branch">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="postcode" class="col-sm-2 col-form-label">Postcode</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="postcode" placeholder="Postcode" v-model="postcode">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="price" class="col-sm-2 col-form-label">Price</label>
+                                <div class="col-sm-10">
+                                    <input type="number" class="form-control" id="price" placeholder="Price" v-model="price">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="note" class="col-sm-2 col-form-label">Note</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" rows="3" id="note" placeholder="Note" v-model="note"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="tags" class="col-sm-2 col-form-label">Tags</label>
+                                <div id="tags" class="col-sm-10">
+                                    <multiselect v-model="tags_with_name" placeholder="Search a tag" label="name" track-by="id" :options="all_tags" :multiple="true" :taggable="false"></multiselect>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="btn_add_tag" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-1">
+                                    <button type="button" id="btn_add_tag" data-toggle="dropdown" class="btn btn-block btn-primary btn-sm"><span class="fa fa-plus-circle"> Tag</span></button>
+                                    <!-- Notifications Dropdown Menu -->
+                                    <div class="dropdown-menu dropdown-menu-lg">
+                                        <span class="dropdown-header dropdown-item-text"><b>Add Tag</b></span>
+                                        <input class="dropdown-item-text form-control" id="tag_name" placeholder="Tag Name">
+                                        <a href="#" class="dropdown-footer dropdown-item">Add</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- /.card-body -->
+                    <div class="card-footer btn-group">
+                        <button class="btn btn-primary">Add</button>
+                        <button class="btn btn-default">Cancel</button>
+                    </div>
+                    <!-- /.card-footer -->
+
+                </div>
+                <!-- /.card -->
+            </div>
+            <!--/.col -->
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+<script>
+$(
+function ()
+{
+    document.title = "Don't Starve! - Add Restaurant";
+    $("#nav_add_restaurant").addClass("active");
+    restaurant.$mount('#restaurant')
+}
+);
+var restaurant = new Vue(
+    {
+        components: {
+            Multiselect: window.VueMultiselect.default
+        },
+        data: {
+            name: "",
+            branch: "",
+            postcode: "",
+            price: 0,
+            note: "",
+            tags: [],
+            tags_with_name: [{"id": 1, "name": "t1"}],
+            all_tags: [{"id": 1, "name": "t1"}, {"id": 2, "name": "t2"}]
+        }
+    }
+);
+</script>

@@ -46,8 +46,8 @@ def add_restaurant(name, branch, postcode, price, note, tags, session=None):
         check_restaurant_branch(branch) and\
         check_restaurant_postcode(postcode) and\
         check_restaurant_price(price) and\
-        check_restaurant_note(note) and\
-        all([check_tag_id(x) for x in tags])
+        check_restaurant_note(note) and \
+        isinstance(tags, list) and all([check_tag_id(x) for x in tags])
     if not valid:
         return False, return_code["INVALID_DATA"], None
     r_same_name = session.query(Restaurant).filter(Restaurant.name == name, Restaurant.branch == branch)
@@ -87,7 +87,7 @@ def edit_restaurant(id, name, branch, postcode, price, note, tags, session=None)
         check_restaurant_postcode(postcode) and \
         check_restaurant_price(price) and \
         check_restaurant_note(note) and \
-        all([check_tag_id(x) for x in tags])
+        isinstance(tags, list) and all([check_tag_id(x) for x in tags])
     if not valid:
         return False, return_code["INVALID_DATA"], None
     r = session.query(Restaurant).filter(Restaurant.id == id)
@@ -128,8 +128,8 @@ def find_restaurants(name_query, postcode_prefix, min_price, max_price, tags, pa
         (True if not name_query else check_restaurant_name(name_query)) and\
         (True if not postcode_prefix else check_restaurant_postcode(postcode_prefix)) and\
         (True if min_price is None else check_restaurant_price(min_price)) and\
-        (True if max_price is None else check_restaurant_price(max_price)) and\
-        (True if not tags else all([check_tag_id(x) for x in tags]))
+        (True if max_price is None else check_restaurant_price(max_price)) and \
+        isinstance(tags, list) and (True if not tags else all([check_tag_id(x) for x in tags]))
     if not valid:
         return False, return_code["INVALID_DATA"], None
     q = session.query(Restaurant)
@@ -162,11 +162,11 @@ def find_restaurants(name_query, postcode_prefix, min_price, max_price, tags, pa
 
 @get_session
 def get_restaurants_name_branch(ids, session=None):
-    valid = ids and all([check_restaurant_id(x) for x in ids])
+    valid = isinstance(ids, list) and all([check_restaurant_id(x) for x in ids])
     if not valid:
         return False, return_code["INVALID_DATA"], None
     q = session.query(Restaurant)
-    if not ids:
+    if ids:
         q = q.filter(Restaurant.id.in_(ids))
     r = q.all()
     return True, return_code["OK"], [
