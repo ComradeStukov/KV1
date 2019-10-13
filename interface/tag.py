@@ -69,3 +69,15 @@ def get_tags(ids, session=None):
         q = q.filter(Tag.id.in_(ids))
     t = q.all()
     return True, return_code["OK"], [{"id": x.id, "name": x.name} for x in t]
+
+@get_session
+def find_tags(name_query, session=None):
+    valid = True if not name_query else check_tag_name(name_query)
+    if not valid:
+        return False, return_code["INVALID_DATA"], None
+    q = session.query(Tag)
+    if name_query:
+        name_query = re.sub(r"\s+", "%", " " + name_query.replace("%", " ") + " ")
+        q = q.filter(Tag.name.ilike(name_query))
+    t = q.all()
+    return True, return_code["OK"], [{"id": x.id, "name": x.name} for x in t]

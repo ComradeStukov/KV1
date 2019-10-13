@@ -239,7 +239,7 @@ class InterfaceTest(unittest.TestCase):
         ])
         return
 
-    def _test_find_tags(self):
+    def _test_get_tags(self):
         code, res = get_tags([])
         self.assertEqual(code, t_ret_code["OK"])
         self.assertEqual(len(res), 2)
@@ -269,6 +269,36 @@ class InterfaceTest(unittest.TestCase):
         self.assertEqual(res, None)
         return
 
+    def _test_find_tags(self):
+        code, res = find_tags("")
+        self.assertEqual(code, t_ret_code["OK"])
+        self.assertEqual(len(res), 2)
+        self.assertEqual(res, [
+            {"id": 1, "name": "t"},
+            {"id": 2, "name": "t2"},
+        ])
+        code, res = find_tags("t")
+        self.assertEqual(code, t_ret_code["OK"])
+        self.assertEqual(len(res), 2)
+        self.assertEqual(res, [
+            {"id": 1, "name": "t"},
+            {"id": 2, "name": "t2"},
+        ])
+        code, res = find_tags("2")
+        self.assertEqual(code, t_ret_code["OK"])
+        self.assertEqual(len(res), 1)
+        self.assertEqual(res, [
+            {"id": 2, "name": "t2"},
+        ])
+        code, res = find_tags("3")
+        self.assertEqual(code, t_ret_code["OK"])
+        self.assertEqual(len(res), 0)
+        self.assertEqual(res, [])
+        code, res = find_tags(1)
+        self.assertEqual(code, t_ret_code["INVALID_DATA"])
+        self.assertEqual(res, None)
+        return
+
     def test(self):
         self._test_add_restaurant()
         self._test_delete_restaurant()
@@ -279,6 +309,7 @@ class InterfaceTest(unittest.TestCase):
         self._test_add_tag()
         self._test_delete_tag()
         self._test_edit_tag()
+        self._test_get_tags()
         self._test_find_tags()
         return
 

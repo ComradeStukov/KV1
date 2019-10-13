@@ -71,7 +71,9 @@
                                     <!-- Notifications Dropdown Menu -->
                                     <div class="dropdown-menu dropdown-menu-lg">
                                         <span class="dropdown-header dropdown-item-text"><b>Add Tag</b></span>
-                                        <input class="dropdown-item-text form-control" id="tag_name" placeholder="Tag Name">
+                                        <div class="dropdown-item-text">
+                                            <input  class="form-control" id="tag_name" placeholder="Tag Name">
+                                        </div>
                                         <a href="#" class="dropdown-footer dropdown-item">Add</a>
                                     </div>
                                 </div>
@@ -100,11 +102,12 @@ function ()
 {
     document.title = "Don't Starve! - Add Restaurant";
     $("#nav_add_restaurant").addClass("active");
-    restaurant.$mount('#restaurant')
+    // restaurant.$mount('#restaurant')
 }
 );
 var restaurant = new Vue(
     {
+        el: "#restaurant",
         components: {
             Multiselect: window.VueMultiselect.default
         },
