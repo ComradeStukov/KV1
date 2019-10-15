@@ -2,6 +2,8 @@
 
 __author__ = "chenty"
 
+from flask_cors import CORS
+
 from web_server import config
 from web_server.base import app
 import web_server.api
@@ -10,6 +12,8 @@ from database.initialize import initialize
 
 
 def run():
+    if config.cors:
+        CORS(app)
     app.run(host=config.host, port=config.port, debug=config.debug, threaded=config.threaded)
     end_session()
     return

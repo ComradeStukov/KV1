@@ -104,3 +104,10 @@ def get_tags():
     code, res = tag.get_tags(data.get("ids", []))
     resp = dumps({"code": code, "res": res})
     return Response(resp, mimetype="application/json")
+
+@app.route("/api/find_tags", methods=["POST"])
+def find_tags():
+    data = request.get_json()
+    code, res = tag.find_tags(data.get("name_query", ""))
+    resp = dumps({"code": code, "res": res})
+    return Response(resp, mimetype="application/json")

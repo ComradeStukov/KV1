@@ -112,7 +112,16 @@
     </aside>
 
     <!-- Content Wrapper. Contains page content -->
-    <div id="frame" class="content-wrapper">
+    <div class="content-wrapper">
+        <div><label></label></div>
+        <div class="col-12">
+            <div id="message" v-if="show" class="alert alert-dismissible" v-bind:class="type">
+                <button type="button" class="close" v-on:click="show = false">×</button>
+                <h5><i class="icon fas fa-info"></i>{{title}}</h5>
+                {{content}}
+            </div>
+        </div>
+        <div id="frame"></div>
     </div>
     <!-- /.content-wrapper -->
     
@@ -138,13 +147,25 @@
 <script src="plugins/vue/vue-multiselect.min.js"></script>
 <!-- AdminLTE App -->
 <script src="plugins/adminlte/js/adminlte.min.js"></script>
+<script src="js/utility.js"></script>
 <script>
 $(
 function ()
 {
-    $("#frame").load("cart.html");
+    $("#frame").load("find_tags.html");
+    $('html,body').animate({scrollTop: 0}, 500);
+    // message.$mount("#message");
 }
 );
+var message = new Vue({
+    el: "#message",
+    data: {
+        "show": false,
+        "type": "",
+        "title": "",
+        "content": ""
+    }
+});
 </script>
 </body>
 </html>

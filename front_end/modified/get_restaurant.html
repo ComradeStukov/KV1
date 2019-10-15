@@ -15,6 +15,7 @@
 
 <!-- Main content -->
 <section class="content">
+
     <div class="container-fluid">
         <div class="row">
             <!-- column -->
@@ -36,44 +37,49 @@
                             <tbody>
                                 <tr>
                                     <td>Id</td>
-                                    <td>{{id}}</td>
+                                    <td>{{data.id}}</td>
                                 </tr>
                                 <tr>
                                     <td>Name</td>
-                                    <td>{{name}}</td>
+                                    <td>{{data.name}}</td>
                                 </tr>
                                 <tr>
                                     <td>Branch</td>
-                                    <td>{{branch}}</td>
+                                    <td>{{data.branch}}</td>
                                 </tr>
                                 <tr>
                                     <td>Postcode</td>
-                                    <td>{{postcode}}</td>
+                                    <td>{{data.postcode}}</td>
                                 </tr>
                                 <tr>
                                     <td>Price</td>
-                                    <td>{{price}}</td>
+                                    <td>{{data.price}}</td>
                                 </tr>
                                 <tr>
                                     <td>Note</td>
-                                    <td>{{note}}</td>
+                                    <td>{{data.note}}</td>
                                 </tr>
                                 <tr>
                                     <td>Update Time</td>
-                                    <td>{{update_time}}</td>
+                                    <td>{{data.update_time}}</td>
                                 </tr>
                                 <tr>
                                     <td>Tags</td>
-                                    <td><span v-for="tag in tags"><span class="badge bg-success">{{tag.name}}</span>&nbsp;</span></td>
+                                    <td><span v-for="tag in data.tags"><span class="badge bg-success">{{tag.name}}</span>&nbsp;</span></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer btn-group">
-                        <button class="btn btn-default">OK</button>
-                        <button class="btn btn-info">Edit</button>
-                        <button class="btn btn-danger">Delete</button>
+                        <button class="btn btn-default" onclick="go_back();">OK</button>
+                        <button class="btn btn-info" onclick="window.location.href='/find_restaurant'+restaurant.$data.data.id;">Edit</button>
+                        <div class="dropdown-menu dropdown-menu-lg">
+                            <span class="dropdown-header dropdown-item-text"><b>Sure?</b></span>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="bg-danger dropdown-footer dropdown-item" onclick="delete_restaurant(restaurant.$data.data.id);">I said Delete!</a>
+                        </div>
+                        <button class="btn btn-danger" data-toggle="dropdown">Delete</button>
                     </div>
                     <!-- /.card-footer -->
                 </div>
@@ -90,20 +96,38 @@
 $(
 function ()
 {
-    document.title = "Don't Starve! - Add Restaurant";
+    document.title = "Don't Starve! - View Restaurant";
+    ajax(
+        "http://127.0.0.1:8493/api/get_restaurant",
+        {"id": restaurant.$data.data.id},
+        function(res){restaurant.$data.data = res;}
+    );
 }
 );
 var restaurant = new Vue(
     {
         el: "#restaurant",
         data: {
-            name: "",
-            branch: "",
-            postcode: "",
-            price: 0,
-            note: "",
-            tags: [{"id": 1, "name": "t1"}, {"id": 2, "name": "t2"}]
+            data: {
+                // "id": [[id]],
+                "id": 100,
+                "name": "",
+                "branch": "",
+                "postcode": "",
+                "note": "",
+                "tags": [],
+                "update_time": ""
+            }
         }
     }
 );
+function delete_restaurant(id)
+{
+    alert(id);
+    ajax(
+        "http://127.0.0.1:8493/api/delete_restaurant",
+        {"id": restaurant.$data.data.id},
+        function(){}
+    );
+}
 </script>

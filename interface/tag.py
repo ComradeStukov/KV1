@@ -64,6 +64,8 @@ def get_tags(ids, session=None):
     valid = isinstance(ids, list) and all([check_tag_id(x) for x in ids])
     if not valid:
         return False, return_code["INVALID_DATA"], None
+    if not ids:
+        return True, return_code["OK"], []
     q = session.query(Tag)
     if ids:
         q = q.filter(Tag.id.in_(ids))
