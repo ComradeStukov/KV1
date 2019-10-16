@@ -9,16 +9,6 @@ var code_message = {
     201: "Tags with the same name exist."
 };
 
-function show_message(show, type, title, content)
-{
-    message.$data["show"] = show;
-    message.$data["type"] = type;
-    message.$data["title"] = title;
-    message.$data["content"] = content;
-    if (show)
-        $('html,body').animate({scrollTop: 0}, 500);
-}
-
 function handle_error(error)
 {
     if (typeof(error) === "number")
@@ -29,7 +19,7 @@ function handle_error(error)
 
 function go_back()
 {
-    !window.history.length ? window.history.go(-1):window.location.href='/find_restaurant';
+    !window.history.length ? window.history.go(-1) : window.location.href='/find_restaurant';
 }
 
 function ajax(url, obj, success)
@@ -47,6 +37,8 @@ function ajax(url, obj, success)
             else
                 handle_error(data["code"]);
         },
-        error: function (error) {handle_error(error);}
+        error: function (error) {handle_error(error);},
+        xhrFields: {withCredentials: test},
+        crossDomain: test
     });
 }

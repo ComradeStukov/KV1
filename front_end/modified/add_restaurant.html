@@ -59,7 +59,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="tags" class="col-sm-2 col-form-label">{{tags_with_name}}</label>
+                                <label for="tags" class="col-sm-2 col-form-label">Tags</label>
                                 <div id="tags" class="col-sm-10">
                                     <multiselect v-model="tags_with_name" placeholder="Search a tag" label="name" track-by="id" :options="all_tags" :multiple="true" :taggable="false"></multiselect>
                                 </div>
@@ -83,7 +83,7 @@
                     <!-- /.card-body -->
                     <div class="card-footer btn-group">
                         <button class="btn btn-primary" onclick="add_restaurant();">Add</button>
-                        <button class="btn btn-dark">Add and then More</button>
+                        <button class="btn btn-dark" onclick="add_restaurant();">Add and then More</button>
                         <button class="btn btn-default" onclick="go_back();">Cancel</button>
                     </div>
                     <!-- /.card-footer -->
@@ -106,39 +106,6 @@ function ()
     get_all_tags();
 }
 );
-function get_all_tags()
-{
-    ajax(
-        "http://127.0.0.1:8493/api/find_tags",
-        {},
-        function(res){restaurant.$data.all_tags = res;}
-    );
-}
-function add_restaurant()
-{
-    restaurant.$data.data.price = parseInt(restaurant.$data.data.price);
-    restaurant.$data.data.tags = Array();
-    for (var x of restaurant.$data.tags_with_name)
-        restaurant.$data.data.tags.push(x["id"]);
-    ajax(
-        "http://127.0.0.1:8493/api/add_restaurant",
-        restaurant.$data.data,
-        function(res){console.log(res);}
-    );
-}
-function add_tag()
-{
-    ajax(
-        "http://127.0.0.1:8493/api/add_tag",
-        {"name": $("#tag_name").val()},
-        function(res)
-        {
-            $("#tag_name").val("");
-            show_message(true, "alert-success", "Tag Added!", "Wow! You have a new tag!");
-            get_all_tags();
-        }
-    );
-}
 var restaurant = new Vue(
     {
         el: "#restaurant",
@@ -159,4 +126,47 @@ var restaurant = new Vue(
         }
     }
 );
+function get_all_tags()
+{
+    ajax(
+        "http://127.0.0.1:8493/api/find_tags",
+        {},
+        function(res){restaurant.$data.all_tags = res;}
+    );
+}
+function add_restaurant(more)
+{
+    restaurant.$data.data.price = parseInt(restaurant.$data.data.price);
+    restaurant.$data.data.tags = Array();
+    for (var x of restaurant.$data.tags_with_name)
+        restaurant.$data.data.tags.push(x["id"]);
+    ajax(
+        "http://127.0.0.1:8493/api/add_restaurant",
+        restaurant.$data.data,
+        function(res)
+        {
+            if (!more)
+                window.location.href = '/find_restaurant' + jQuery.param({id: res});
+            else
+                window.location.href = '/add_restaurant' + jQuery.param({
+                    message_type: "alert_success",
+                    message_title: "Restaurant Added!",
+                    message_content: "asfsaf"
+                });
+        }
+    );
+}
+function add_tag()
+{
+    ajax(
+        "http://127.0.0.1:8493/api/add_tag",
+        {"name": $("#tag_name").val()},
+        function(res)
+        {
+            $("#tag_name").val("");
+            show_message(true, "alert-success", "Tag Added!", "Wow! You have a new tag!");
+            get_all_tags();
+        }
+    );
+}
 </script>

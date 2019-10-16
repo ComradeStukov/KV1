@@ -66,10 +66,7 @@ def get_tags(ids, session=None):
         return False, return_code["INVALID_DATA"], None
     if not ids:
         return True, return_code["OK"], []
-    q = session.query(Tag)
-    if ids:
-        q = q.filter(Tag.id.in_(ids))
-    t = q.all()
+    t = session.query(Tag).filter(Tag.id.in_(ids)).all()
     return True, return_code["OK"], [{"id": x.id, "name": x.name} for x in t]
 
 @get_session

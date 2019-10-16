@@ -10,6 +10,7 @@ port = 8493
 debug = False
 threaded = True
 cors = False
+secret_key = "jU5lYm6qGRRcGpLddaBp"
 
 if test:
     host = "127.0.0.1"
@@ -17,3 +18,4 @@ if test:
     debug = True
     threaded = True
     cors = True
+    secret_key = "WFC0XsplPU03XqKXu3iu"

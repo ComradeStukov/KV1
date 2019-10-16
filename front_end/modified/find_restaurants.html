@@ -106,6 +106,7 @@ $(
 function ()
 {
     document.title = "Don't Starve! - Find Restaurants";
+    $("#nav_find_restaurants").addClass("active");
     ajax(
         "http://127.0.0.1:8493/api/find_restaurants",
         search.$data.data,
@@ -168,7 +169,18 @@ var restaurant = new Vue(
             data:[]
         },
         methods: {
-            add_to_cart: function(x){console.log(x);}
+            add_to_cart: function(x)
+            {
+                ajax(
+                    "http://127.0.0.1:8493/api/add_cart",
+                    {"id": x},
+                    function(res)
+                    {
+                        show_message(true, "alert-success", "Restaurant Added to Cart!", "SBSBSB!");
+                        get_cart();
+                    }
+                );
+            }
         }
     }
 );

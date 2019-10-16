@@ -30,19 +30,20 @@
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
             <!-- Notifications Dropdown Menu -->
-            <li class="nav-item dropdown">
+            <li id="cart" class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
                     <i class="fa fa-shopping-cart"></i>
-                    <span class="badge badge-warning navbar-badge">0</span>
+                    <span class="badge badge-warning navbar-badge">{{data.length}}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <span class="dropdown-item-text dropdown-header">Restaurants Cart</span>
+                    <span class="dropdown-item-text dropdown-header"><b>Restaurant Cart</b></span>
                     <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="fas fa-envelope mr-2"></i> 4 new messages
-                        <span class="float-right text-muted text-sm">3 mins</span>
-                    </a>
-                    <a href="cart" class="dropdown-item dropdown-footer">Check out!</a>
+                    <span class="dropdown-item dropdown-item-text" v-for="c in data">
+                        <i class="fas fa-hamburger mr-2"></i><b>{{c.name}}</b>{{" "+c.branch}}
+                        <span class="float-right text-muted text-sm">Weight: {{c.weight}}</span>
+                    </span>
+                    <span v-if="!data.length" class="dropdown-item-text" style="text-align: center">OMG! Your cart is empty!</span>
+                    <a href="cart" class="dropdown-item dropdown-footer bg-warning">View All!</a>
                 </div>
             </li>
         </ul>
@@ -152,9 +153,9 @@
 $(
 function ()
 {
-    $("#frame").load("find_tags.html");
+    $("#frame").load("cart.html");
     $('html,body').animate({scrollTop: 0}, 500);
-    // message.$mount("#message");
+    get_cart();
 }
 );
 var message = new Vue({
@@ -166,6 +167,29 @@ var message = new Vue({
         "content": ""
     }
 });
+var cart = new Vue({
+    el: "#cart",
+    data: {
+        data: []
+    }
+});
+function show_message(show, type, title, content)
+{
+    message.$data["show"] = show;
+    message.$data["type"] = type;
+    message.$data["title"] = title;
+    message.$data["content"] = content;
+    if (show)
+        $('html,body').animate({scrollTop: 0}, 500);
+}
+function get_cart()
+{
+    ajax(
+        "http://127.0.0.1:8493/api/get_cart",
+        {},
+        function(res) {console.log(res); cart.$data.data = res;}
+    );
+}
 </script>
 </body>
 </html>

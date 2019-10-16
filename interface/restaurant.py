@@ -162,18 +162,18 @@ def find_restaurants(name_query, postcode_prefix, min_price, max_price, tags, pa
     }
 
 @get_session
-def get_restaurants_name_branch(ids, session=None):
+def get_restaurants(ids, session=None):
     valid = isinstance(ids, list) and all([check_restaurant_id(x) for x in ids])
     if not valid:
         return False, return_code["INVALID_DATA"], None
-    q = session.query(Restaurant)
-    if ids:
-        q = q.filter(Restaurant.id.in_(ids))
-    r = q.all()
+    if not ids:
+        return True, return_code["OK"], []
+    r = session.query(Restaurant).filter(Restaurant.id.in_(ids)).all()
     return True, return_code["OK"], [
         {
             "id": x.id,
             "name": x.name,
-            "branch": x.branch
+            "branch": x.branch,
+            "tags": [{"id": t.id, "name": t.name} for t in x.tags]
         } for x in r
     ]
