@@ -136,31 +136,20 @@ class InterfaceTest(unittest.TestCase):
         self.assertEqual(res, None)
         return
 
-    def _test_get_restaurant_name_branch(self):
-        code, res = get_restaurants_name_branch([1, 2, 3])
+    def _test_get_restaurants(self):
+        code, res = get_restaurants([1, 2, 3])
         self.assertEqual(code, r_ret_code["OK"])
-        self.assertEqual(res, [
-            {"id": 1, "name": "r", "branch": "b"},
-            {"id": 2, "name": "r2", "branch": "b2"},
-            {"id": 3, "name": "r3", "branch": "b3"}
-        ])
-        code, res = get_restaurants_name_branch([1, 2, 3, 4])
+        self.assertEqual(res[0]["id"], 1)
+        code, res = get_restaurants([1, 2, 3, 4])
         self.assertEqual(code, r_ret_code["OK"])
-        self.assertEqual(res, [
-            {"id": 1, "name": "r", "branch": "b"},
-            {"id": 2, "name": "r2", "branch": "b2"},
-            {"id": 3, "name": "r3", "branch": "b3"}
-        ])
-        code, res = get_restaurants_name_branch([1, 3])
+        self.assertEqual(len(res), 3)
+        code, res = get_restaurants([1, 3])
         self.assertEqual(code, r_ret_code["OK"])
-        self.assertEqual(res, [
-            {"id": 1, "name": "r", "branch": "b"},
-            {"id": 3, "name": "r3", "branch": "b3"}
-        ])
-        code, res = get_restaurants_name_branch([4])
+        self.assertEqual(res, len(res), 2)
+        code, res = get_restaurants([4])
         self.assertEqual(code, r_ret_code["OK"])
         self.assertEqual(res, [])
-        code, res = get_restaurants_name_branch(["asdf"])
+        code, res = get_restaurants(["asdf"])
         self.assertEqual(code, r_ret_code["INVALID_DATA"])
         self.assertEqual(res, None)
         return
@@ -242,11 +231,8 @@ class InterfaceTest(unittest.TestCase):
     def _test_get_tags(self):
         code, res = get_tags([])
         self.assertEqual(code, t_ret_code["OK"])
-        self.assertEqual(len(res), 2)
-        self.assertEqual(res, [
-            {"id": 1, "name": "t"},
-            {"id": 2, "name": "t2"},
-        ])
+        self.assertEqual(len(res), 0)
+        self.assertEqual(res, [])
         code, res = get_tags([1, 2])
         self.assertEqual(code, t_ret_code["OK"])
         self.assertEqual(len(res), 2)
@@ -305,7 +291,7 @@ class InterfaceTest(unittest.TestCase):
         self._test_edit_restaurant()
         self._test_get_restaurant()
         self._test_find_restaurants()
-        self._test_get_restaurant_name_branch()
+        self._test_get_restaurant()
         self._test_add_tag()
         self._test_delete_tag()
         self._test_edit_tag()

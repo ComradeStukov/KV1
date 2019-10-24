@@ -156,6 +156,8 @@ def find_restaurants(name_query, postcode_prefix, min_price, max_price, tags, pa
                 "id": x.id,
                 "name": x.name,
                 "branch": x.branch,
+                "postcode": x.postcode,
+                "price": x.price,
                 "tags": [{"id": t.id, "name": t.name} for t in x.tags]
             } for x in r
         ]
@@ -174,6 +176,8 @@ def get_restaurants(ids, session=None):
             "id": x.id,
             "name": x.name,
             "branch": x.branch,
+            "postcode": x.postcode,
+            "price": x.price,
             "tags": [{"id": t.id, "name": t.name} for t in x.tags]
         } for x in r
     ]

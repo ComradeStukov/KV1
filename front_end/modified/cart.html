@@ -1,3 +1,5 @@
+{%extends "frame.html"%}
+{%block html%}
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
@@ -29,20 +31,24 @@
                         <table id="restaurant" class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th style="width: 10%">Id</th>
-                                    <th style="width: 15%">Name</th>
-                                    <th style="width: 15%">Branch</th>
+                                    <th style="width: 5%">Id</th>
+                                    <th style="width: 12.5%">Name</th>
+                                    <th style="width: 12.5%">Branch</th>
+                                    <th style="width: 10%">Postcode</th>
+                                    <th style="width: 5%">Price</th>
                                     <th style="width: 20%">Tags</th>
-                                    <th style="width: 10%">Weight</th>
+                                    <th style="width: 5%">Weight</th>
                                     <th style="width: 15%">Adjust Weight</th>
                                     <th style="width: 15%">Remove from Cart</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="x in cart.data">
-                                    <td>{{x.id}}</td>
+                                    <td><a v-bind:href="'get_restaurant?id='+x.id">{{x.id}}</a></td>
                                     <td>{{x.name}}</td>
                                     <td>{{x.branch}}</td>
+                                    <td>{{x.postcode}}</td>
+                                    <td>{{x.price}}</td>
                                     <td><span v-for="tag in x.tags"><span class="badge bg-success">{{tag.name}}</span>&nbsp;</span></td>
                                     <td>{{x.weight}}</td>
                                     <td>
@@ -57,21 +63,21 @@
                                         <div class="dropdown-menu dropdown-menu-lg">
                                             <span class="dropdown-header dropdown-item-text"><b>Sure?</b></span>
                                             <div class="dropdown-divider"></div>
-                                            <a href="#" class="bg-danger dropdown-footer dropdown-item" v-on:click="remove_from_cart(x.id);">I said Remove!</a>
+                                            <a href="javascript:void(0);" class="bg-danger dropdown-footer dropdown-item" v-on:click="remove_from_cart(x.id);">I said Remove!</a>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr v-if="!cart.data.length"><td colspan="7" style="text-align: center">OMG! Your cart is empty!</td></tr>
+                                <tr v-if="!cart.data.length"><td colspan="9" style="text-align: center">OMG! Your cart is empty!</td></tr>
                             </tbody>
                         </table>
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer btn-group">
-                        <button class="btn btn-warning" onclick="">GO!</button>
+                        <button class="btn btn-warning" onclick="result();">GO!</button>
                         <div class="dropdown-menu dropdown-menu-lg">
                             <span class="dropdown-header dropdown-item-text"><b>Sure?</b></span>
                             <div class="dropdown-divider"></div>
-                            <a href="#" class="bg-danger dropdown-footer dropdown-item" onclick="remove_all();">I said Remove!</a>
+                            <a href="javascript:void(0);" class="bg-danger dropdown-footer dropdown-item" onclick="remove_all();">I said Remove!</a>
                         </div>
                         <button class="btn btn-danger" data-toggle="dropdown">Remove All</button>
                     </div>
@@ -86,6 +92,8 @@
     </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
+{%endblock%}
+{%block script%}
 <script>
 $(
 function ()
@@ -139,4 +147,13 @@ function remove_all()
         }
     );
 }
+function result()
+{
+    ajax(
+        "http://127.0.0.1:8493/api/clean_result",
+        {},
+        function(res) {window.location.href = "result"}
+    );
+}
 </script>
+{%endblock%}

@@ -1,3 +1,5 @@
+{%extends "frame.html"%}
+{%block html%}
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
@@ -73,11 +75,11 @@
                     <!-- /.card-body -->
                     <div class="card-footer btn-group">
                         <button class="btn btn-default" onclick="go_back();">OK</button>
-                        <button class="btn btn-info" onclick="window.location.href='/find_restaurant'+restaurant.$data.data.id;">Edit</button>
+                        <button class="btn btn-info" onclick="window.location.href='/edit_restaurant?id='+restaurant.$data.data.id;">Edit</button>
                         <div class="dropdown-menu dropdown-menu-lg">
                             <span class="dropdown-header dropdown-item-text"><b>Sure?</b></span>
                             <div class="dropdown-divider"></div>
-                            <a href="#" class="bg-danger dropdown-footer dropdown-item" onclick="delete_restaurant(restaurant.$data.data.id);">I said Delete!</a>
+                            <a href="javascript:void(0);" class="bg-danger dropdown-footer dropdown-item" onclick="delete_restaurant(restaurant.$data.data.id);">I said Delete!</a>
                         </div>
                         <button class="btn btn-danger" data-toggle="dropdown">Delete</button>
                     </div>
@@ -92,6 +94,8 @@
     </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
+{%endblock%}
+{%block script%}
 <script>
 $(
 function ()
@@ -109,8 +113,7 @@ var restaurant = new Vue(
         el: "#restaurant",
         data: {
             data: {
-                // "id": [[id]],
-                "id": 100,
+                "id": [[id]],
                 "name": "",
                 "branch": "",
                 "postcode": "",
@@ -123,11 +126,11 @@ var restaurant = new Vue(
 );
 function delete_restaurant(id)
 {
-    alert(id);
     ajax(
         "http://127.0.0.1:8493/api/delete_restaurant",
         {"id": restaurant.$data.data.id},
-        function(){}
+        function() {go_back();}
     );
 }
 </script>
+{%endblock%}

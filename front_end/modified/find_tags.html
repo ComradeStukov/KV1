@@ -1,3 +1,5 @@
+{%extends "frame.html"%}
+{%block html%}
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
@@ -40,10 +42,10 @@
                                     <div class="dropdown-item-text">
                                         <input  class="form-control" id="add_tag_name" placeholder="Tag Name">
                                     </div>
-                                    <a href="#" class="dropdown-footer dropdown-item bg-success" onclick="add_tag();">Add</a>
+                                    <a href="javascript:void(0);" class="dropdown-footer dropdown-item bg-success" onclick="add_tag();">Add</a>
                                 </div>
                                 <div class="col-6"><input id="search_name" class="form-control"></div>
-                                <button class="col-3 btn btn-success">Search!</button>
+                                <button class="col-3 btn btn-success" onclick="find_tags();">Search!</button>
                             </div>
                         </div>
                         <div class="row">
@@ -70,7 +72,7 @@
                                             <div class="dropdown-item-text">
                                                 <input class="form-control" placeholder="New Tag Name" v-model="x.new_name">
                                             </div>
-                                            <a href="#" class="dropdown-footer dropdown-item bg-success" v-on:click="edit_tag(x.id,x.new_name);">Edit!</a>
+                                            <a href="javascript:void(0);" class="dropdown-footer dropdown-item bg-success" v-on:click="edit_tag(x.id,x.new_name);">Edit!</a>
                                         </div>
                                     </td>
                                     <td>
@@ -79,10 +81,11 @@
                                         <div class="dropdown-menu dropdown-menu-lg">
                                             <span class="dropdown-header dropdown-item-text"><b>Sure?</b></span>
                                             <div class="dropdown-divider"></div>
-                                            <a href="#" class="bg-danger dropdown-footer dropdown-item" v-on:click="delete_tag(x.id);">I said Delete!</a>
+                                            <a href="javascript:void(0);" class="bg-danger dropdown-footer dropdown-item" v-on:click="delete_tag(x.id);">I said Delete!</a>
                                         </div>
                                     </td>
                                 </tr>
+                                <tr v-if="!data.length"><td colspan="7" style="text-align: center">OMG! No results found!</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -100,6 +103,8 @@
     </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
+{%endblock%}
+{%block script%}
 <script>
 $(
 function ()
@@ -111,9 +116,10 @@ function ()
 );
 function find_tags()
 {
+    tag.$data.data = [];
     ajax(
         "http://127.0.0.1:8493/api/find_tags",
-        {name_query: search},
+        {name_query: $("#search_name").val()},
         function(res)
         {
             for (var t of res)
@@ -135,7 +141,6 @@ function add_tag()
         }
     );
 }
-var search = "";
 var tag = new Vue(
     {
         el: "#tag",
@@ -171,3 +176,4 @@ var tag = new Vue(
     }
 );
 </script>
+{%endblock%}

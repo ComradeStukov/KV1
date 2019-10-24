@@ -17,9 +17,9 @@ function handle_error(error)
         show_message(true, "alert-danger", "Error", "Server returned " + error.status + ".");
 }
 
-function go_back()
+function go_back(page=1)
 {
-    !window.history.length ? window.history.go(-1) : window.location.href='/find_restaurant';
+    window.history.length >= page ? window.history.go(-page) : window.location.href='/find_restaurants';
 }
 
 function ajax(url, obj, success)

@@ -22,7 +22,7 @@
             <!-- column -->
             <div class="col-md-12">
                 <!-- Horizontal Form -->
-                <div class="card card-primary">
+                <div class="card card-purple">
                     <div class="card-header">
                         <h3 class="card-title"> “Say pal, you don't look so good. You better find something to eat before night comes!”</h3>
                     </div>
@@ -30,6 +30,12 @@
                     <!-- form start -->
                     <form id="restaurant" class="form-horizontal">
                         <div class="card-body">
+                            <div class="form-group row">
+                                <label for="name" class="col-sm-2 col-form-label">Id</label>
+                                <div class="col-sm-10">
+                                    <span id="id" >{{data.id}}</span>
+                                </div>
+                            </div>
                             <div class="form-group row">
                                 <label for="name" class="col-sm-2 col-form-label">Name</label>
                                 <div class="col-sm-10">
@@ -69,7 +75,7 @@
                             <div class="form-group row">
                                 <label for="btn_add_tag" class="col-sm-2 col-form-label"></label>
                                 <div class="col-sm-1">
-                                    <button type="button" id="btn_add_tag" data-toggle="dropdown" class="btn btn-block btn-success btn-sm"><span class="fa fa-plus-circle"> Tag</span></button>
+                                    <button type="button" id="btn_add_tag" data-toggle="dropdown" class="btn btn-block bg-success btn-sm"><span class="fa fa-plus-circle"> Tag</span></button>
                                     <!-- Notifications Dropdown Menu -->
                                     <div class="dropdown-menu dropdown-menu-lg">
                                         <span class="dropdown-header dropdown-item-text"><b>Add Tag</b></span>
@@ -84,7 +90,7 @@
                     </form>
                     <!-- /.card-body -->
                     <div class="card-footer btn-group">
-                        <button class="btn btn-primary" onclick="add_restaurant();">Add</button>
+                        <button class="btn bg-purple" onclick="edit_restaurant();">Edit</button>
                         <button class="btn btn-default" onclick="go_back();">Cancel</button>
                     </div>
                     <!-- /.card-footer -->
@@ -104,8 +110,19 @@
 $(
 function ()
 {
-    document.title = "Don't Starve! - Add Restaurant";
-    $("#nav_add_restaurant").addClass("active");
+    document.title = "Don't Starve! - Edit Restaurant";
+    ajax(
+        "http://127.0.0.1:8493/api/get_restaurant",
+        {"id": restaurant.$data.data.id},
+        function(res)
+        {
+            restaurant.$data.data = res;
+            restaurant.$data.tags_with_name = restaurant.$data.data.tags;
+            restaurant.$data.data.tags = [];
+            for (var x of restaurant.$data.tags_with_name)
+                restaurant.$data.data.tags.push(x["id"]);
+        }
+    );
     get_all_tags();
 }
 );
@@ -117,6 +134,7 @@ var restaurant = new Vue(
         },
         data: {
             data:{
+                id: [[id]],
                 name: "",
                 branch: "",
                 postcode: "",
@@ -137,28 +155,16 @@ function get_all_tags()
         function(res){restaurant.$data.all_tags = res;}
     );
 }
-function add_restaurant()
+function edit_restaurant()
 {
     restaurant.$data.data.price = parseInt(restaurant.$data.data.price);
     restaurant.$data.data.tags = Array();
     for (var x of restaurant.$data.tags_with_name)
         restaurant.$data.data.tags.push(x["id"]);
     ajax(
-        "http://127.0.0.1:8493/api/add_restaurant",
+        "http://127.0.0.1:8493/api/edit_restaurant",
         restaurant.$data.data,
-        function(res)
-        {
-            show_message(true, "alert-success", "Restaurant Added!", "asdfasdf");
-            restaurant.$data.data = {
-                name: "",
-                branch: "",
-                postcode: "",
-                price: 0,
-                note: "",
-                tags: []
-            };
-            restaurant.$data.tags_with_name = [];
-        }
+        function(res) {go_back();}
     );
 }
 function add_tag()

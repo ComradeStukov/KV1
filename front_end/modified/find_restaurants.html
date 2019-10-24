@@ -1,3 +1,5 @@
+{%extends "frame.html"%}
+{%block html%}
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
@@ -48,7 +50,7 @@
                                 <div class="col-9">
                                     <multiselect v-model="tags_with_name" placeholder="Search a tag" label="name" track-by="id" :options="all_tags" :multiple="true" :taggable="false"></multiselect>
                                 </div>
-                                <button class="col-3 btn btn-secondary">Search!</button>
+                                <button class="col-3 btn btn-secondary" onclick="go_search();">Search!</button>
                             </div>
                         </div>
                         <div class="row">
@@ -57,34 +59,39 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th style="width: 10%">Id</th>
-                                    <th style="width: 20%">Name</th>
-                                    <th style="width: 20%">Branch</th>
-                                    <th style="width: 35%">Tags</th>
+                                    <th style="width: 5%">Id</th>
+                                    <th style="width: 15%">Name</th>
+                                    <th style="width: 15%">Branch</th>
+                                    <th style="width: 15%">Postcode</th>
+                                    <th style="width: 10%">Price</th>
+                                    <th style="width: 25%">Tags</th>
                                     <th style="width: 15%">Add to Cart</th>
                                 </tr>
                             </thead>
                             <tbody id="restaurant">
                                 <tr v-for="x in data">
-                                    <td>{{x.id}}</td>
+                                    <td><a v-bind:href="'get_restaurant?id='+x.id">{{x.id}}</a></td>
                                     <td>{{x.name}}</td>
                                     <td>{{x.branch}}</td>
+                                    <td>{{x.postcode}}</td>
+                                    <td>{{x.price}}</td>
                                     <td><span v-for="tag in x.tags"><span class="badge bg-success">{{tag.name}}</span>&nbsp;</span></td>
                                     <td>
                                         <button class="btn btn-sm btn-secondary" v-on:click="add_to_cart(x.id);">Add!</button>
                                     </td>
                                 </tr>
+                                <tr v-if="!data.length"><td colspan="7" style="text-align: center">OMG! No results found!</td></tr>
                             </tbody>
                         </table>
                     </div>
                     <!-- /.card-body -->
-                    <div class="card-footer">
-                        <div class="row">
+                    <div class="card-footer" id="page">
+                        <div class="row" v-if="total_page">
                             <div class="col-9" style="text-align: right">
                                 <label for="page">Pages:&nbsp&nbsp</label>
                             </div>
                             <div class="col-3">
-                                <select id="page" class="form-control float-right" v-model="select_page" @change="go_to_page();">
+                                <select class="form-control float-right" v-model="select_page" @change="go_to_page();">
                                     <option v-for="i in Array.from(Array(total_page).keys())" v-bind:value="i+1">{{i+1}}</option>
                                 </select>
                             </div>
@@ -101,6 +108,8 @@
     </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
+{%endblock%}
+{%block script%}
 <script>
 $(
 function ()
@@ -137,11 +146,12 @@ var search = new Vue(
         },
         data: {
             data: {
-                name_quiry: "",
-                postcode_prefix: "",
-                price_max: null,
-                price_min: null,
-                tags: [],
+                name_query: "{%if "name_query" in search%}[[search["name_query"] ]]{%else%}{%endif%}",
+                postcode_prefix: "{%if "postcode_prefix" in search%}[[search["postcode_prefix"] ]]{%else%}{%endif%}",
+                price_max: {%if "price_max" in search and search["price_max"] != None%}[[search["price_max"] ]]{%else%}null{%endif%},
+                price_min: {%if "price_min" in search and search["price_min"] != None%}[[search["price_min"] ]]{%else%}null{%endif%},
+                tags: {%if "tags" in search%}[[search["tags"] ]]{%else%}[]{%endif%},
+                page: [[page]]
             },
             tags_with_name: [],
             all_tags: []
@@ -152,16 +162,31 @@ var page = new Vue(
     {
         el: "#page",
         data: {
-            page: 0,
+            page: [[page]],
             total_page: 0,
             select_page: 0
         },
         methods: {
-            go_to_page: function(){console.log(this.$data.select_page);}
+            go_to_page: function()
+            {
+                window.location.href = '/find_restaurants?search=' + encodeURIComponent(original_search) + "&page=" + this.$data.select_page;
+            }
         }
     }
-)
+);
 var original_search = JSON.stringify(search.$data.data);
+function go_search()
+{
+    if (search.$data.data["price_min"] == "")
+        search.$data.data["price_min"] = null;
+    if (search.$data.data["price_max"] == "")
+        search.$data.data["price_max"] = null;
+    search.$data.data.tags = Array();
+    for (var x of search.$data.tags_with_name)
+        search.$data.data.tags.push(x["id"]);
+    var new_search = JSON.stringify(search.$data.data);
+    window.location.href = '/find_restaurants?search=' + encodeURIComponent(new_search) + "&page=1";
+}
 var restaurant = new Vue(
     {
         el: "#restaurant",
@@ -185,3 +210,4 @@ var restaurant = new Vue(
     }
 );
 </script>
+{%endblock%}

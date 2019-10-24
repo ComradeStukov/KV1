@@ -10,11 +10,11 @@ from interface import restaurant
 
 
 @app.route("/api/test", methods=["GET"])
-def test():
+def api_test():
     return "API Module is running."
 
 @app.route("/api/add_restaurant", methods=["POST"])
-def add_restaurant():
+def api_add_restaurant():
     data = request.get_json()
     code, res = restaurant.add_restaurant(
         data["name"],
@@ -28,14 +28,14 @@ def add_restaurant():
     return Response(resp, mimetype="application/json")
 
 @app.route("/api/delete_restaurant", methods=["POST"])
-def delete_restaurant():
+def api_delete_restaurant():
     data = request.get_json()
     code, res = restaurant.delete_restaurant(data["id"])
     resp = dumps({"code": code, "res": res})
     return Response(resp, mimetype="application/json")
 
 @app.route("/api/edit_restaurant", methods=["POST"])
-def edit_restaurant():
+def api_edit_restaurant():
     data = request.get_json()
     code, res = restaurant.edit_restaurant(
         data["id"],
@@ -50,14 +50,14 @@ def edit_restaurant():
     return Response(resp, mimetype="application/json")
 
 @app.route("/api/get_restaurant", methods=["POST"])
-def get_restaurant():
+def api_get_restaurant():
     data = request.get_json()
     code, res = restaurant.get_restaurant(data["id"])
     resp = dumps({"code": code, "res": res})
     return Response(resp, mimetype="application/json")
 
 @app.route("/api/find_restaurants", methods=["POST"])
-def find_restaurants():
+def api_find_restaurants():
     data = request.get_json()
     code, res = restaurant.find_restaurants(
         data.get("name_query", ""),
