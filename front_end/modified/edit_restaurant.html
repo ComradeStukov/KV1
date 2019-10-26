@@ -112,7 +112,7 @@ function ()
 {
     document.title = "Don't Starve! - Edit Restaurant";
     ajax(
-        "http://127.0.0.1:8493/api/get_restaurant",
+        "api/get_restaurant",
         {"id": restaurant.$data.data.id},
         function(res)
         {
@@ -150,7 +150,7 @@ var restaurant = new Vue(
 function get_all_tags()
 {
     ajax(
-        "http://127.0.0.1:8493/api/find_tags",
+        "api/find_tags",
         {},
         function(res){restaurant.$data.all_tags = res;}
     );
@@ -162,7 +162,7 @@ function edit_restaurant()
     for (var x of restaurant.$data.tags_with_name)
         restaurant.$data.data.tags.push(x["id"]);
     ajax(
-        "http://127.0.0.1:8493/api/edit_restaurant",
+        "api/edit_restaurant",
         restaurant.$data.data,
         function(res) {go_back();}
     );
@@ -170,7 +170,7 @@ function edit_restaurant()
 function add_tag()
 {
     ajax(
-        "http://127.0.0.1:8493/api/add_tag",
+        "api/add_tag",
         {"name": $("#tag_name").val()},
         function(res)
         {

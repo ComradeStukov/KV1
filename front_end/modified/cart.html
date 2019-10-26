@@ -115,7 +115,7 @@ var restaurant = new Vue(
             adjust_weight: function(x, delta)
             {
                 ajax(
-                    "http://127.0.0.1:8493/api/edit_cart",
+                    "api/edit_cart",
                     {"id": x, "delta": delta},
                     function(res) {get_cart();}
                 );
@@ -123,7 +123,7 @@ var restaurant = new Vue(
             remove_from_cart: function(x)
             {
                 ajax(
-                    "http://127.0.0.1:8493/api/delete_cart",
+                    "api/delete_cart",
                     {"id": x},
                     function(res)
                     {
@@ -138,7 +138,7 @@ var restaurant = new Vue(
 function remove_all()
 {
     ajax(
-        "http://127.0.0.1:8493/api/clean_cart",
+        "api/clean_cart",
         {},
         function(res)
         {
@@ -150,7 +150,7 @@ function remove_all()
 function result()
 {
     ajax(
-        "http://127.0.0.1:8493/api/clean_result",
+        "api/clean_result",
         {},
         function(res) {window.location.href = "result"}
     );

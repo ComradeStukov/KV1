@@ -64,7 +64,7 @@ $(
 function ()
 {
     $.ajax({
-        url: "http://127.0.0.1:8493/api/get_result",
+        url: "api/get_result",
         type: "POST",
         contentType: "application/json;charset=utf-8;",
         data: JSON.stringify({id: restaurant.$data.data.id}),
@@ -88,7 +88,7 @@ function ()
 function again()
 {
     $.ajax({
-        url: "http://127.0.0.1:8493/api/clean_result",
+        url: "api/clean_result",
         type: "POST",
         contentType: "application/json;charset=utf-8;",
         data: JSON.stringify({}),

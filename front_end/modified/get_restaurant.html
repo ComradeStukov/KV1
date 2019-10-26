@@ -1,5 +1,6 @@
 {%extends "frame.html"%}
 {%block html%}
+<link rel="stylesheet" href="res/plugins/openlayers/ol.css" />
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
@@ -14,14 +15,12 @@
         </div>
     </div><!-- /.container-fluid -->
 </section>
-
 <!-- Main content -->
 <section class="content">
-
     <div class="container-fluid">
         <div class="row">
             <!-- column -->
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <!-- Horizontal Form -->
                 <div class="card card-info">
                     <div class="card-header">
@@ -86,9 +85,25 @@
                     <!-- /.card-footer -->
                 </div>
                 <!-- /.card -->
-
             </div>
             <!--/.col -->
+            <!-- column -->
+            <div class="col-md-6">
+                <!-- Horizontal Form -->
+                <div class="card card-info">
+                    <div class="card-header">
+                        <h3 class="card-title"> "It makes me hungry just to look at it."</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div id="map" style="height: 480px; width: 100%;}"></div>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                    </div>
+                    <!-- /.card-footer -->
+                </div>
+            </div>
         </div>
         <!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -96,15 +111,37 @@
 <!-- /.content -->
 {%endblock%}
 {%block script%}
+<script src="res/plugins/openlayers/ol.js"></script>
 <script>
 $(
 function ()
 {
     document.title = "Don't Starve! - View Restaurant";
     ajax(
-        "http://127.0.0.1:8493/api/get_restaurant",
+        "api/get_restaurant",
         {"id": restaurant.$data.data.id},
-        function(res){restaurant.$data.data = res;}
+        function(res)
+        {
+            restaurant.$data.data = res;
+            ajax(
+                "api/get_postcode_coord",
+                {"postcode": restaurant.$data.data.postcode},
+                function(res)
+                {
+                    map.setView(new ol.View({center: ol.proj.fromLonLat(res), zoom: 17}));
+                    var style = new ol.style.Style({
+                        image: new ol.style.Circle({
+                            radius: 7,
+                            fill: new ol.style.Fill({color: 'red'}),
+                            stroke: new ol.style.Stroke({color: [0, 0, 0], width: 2})
+                        })
+                    });
+                    var feature = new ol.Feature({geometry: new ol.geom.Point(ol.proj.fromLonLat(res))});
+                    feature.setStyle(style);
+                    map.addLayer(new ol.layer.Vector({source: new ol.source.Vector({features: [feature]})}));
+                }
+            )
+        }
     );
 }
 );
@@ -127,10 +164,15 @@ var restaurant = new Vue(
 function delete_restaurant(id)
 {
     ajax(
-        "http://127.0.0.1:8493/api/delete_restaurant",
+        "api/delete_restaurant",
         {"id": restaurant.$data.data.id},
         function() {go_back();}
     );
 }
+var map = new ol.Map({
+    target: 'map',
+    layers: [new ol.layer.Tile({source: new ol.source.OSM()})],
+    view: new ol.View({center: ol.proj.fromLonLat([-0.15, 51.5]), zoom: 14})
+});
 </script>
 {%endblock%}

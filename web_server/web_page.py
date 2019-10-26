@@ -6,6 +6,7 @@ from flask import request, send_from_directory, render_template
 from json import loads
 
 from web_server.base import app
+from web_server.config import test
 
 
 @app.route("/", methods=["GET"])
@@ -45,6 +46,7 @@ def web_cart():
 def web_result():
     return render_template("result.html")
 
-@app.route("/res/<path:path>", methods=["GET"])
-def web_res_file(path):
-    return send_from_directory("../front_end/modified/res", path)
+if test:
+    @app.route("/res/<path:path>", methods=["GET"])
+    def test_web_res_file(path):
+        return send_from_directory("../front_end/modified/res", path)

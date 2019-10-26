@@ -118,7 +118,7 @@ function find_tags()
 {
     tag.$data.data = [];
     ajax(
-        "http://127.0.0.1:8493/api/find_tags",
+        "api/find_tags",
         {name_query: $("#search_name").val()},
         function(res)
         {
@@ -131,7 +131,7 @@ function find_tags()
 function add_tag()
 {
     ajax(
-        "http://127.0.0.1:8493/api/add_tag",
+        "api/add_tag",
         {"name": $("#add_tag_name").val()},
         function(res)
         {
@@ -151,7 +151,7 @@ var tag = new Vue(
             edit_tag: function(id, new_name)
             {
                 ajax(
-                    "http://127.0.0.1:8493/api/edit_tag",
+                    "api/edit_tag",
                     {"id": id, "name": new_name},
                     function(res)
                     {
@@ -163,7 +163,7 @@ var tag = new Vue(
             delete_tag: function(id)
             {
                 ajax(
-                    "http://127.0.0.1:8493/api/delete_tag",
+                    "api/delete_tag",
                     {"id": id},
                     function(res)
                     {

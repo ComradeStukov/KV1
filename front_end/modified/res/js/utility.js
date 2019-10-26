@@ -5,8 +5,10 @@ var code_message = {
     1: "Invalid Data",
     100: "Restaurant not found.",
     101: "Restaurants with the same name and branch exist.",
+    150: "Coordinate not found.",
     200: "Tag not found",
-    201: "Tags with the same name exist."
+    201: "Tags with the same name exist.",
+    300: "Cart is empty.",
 };
 
 function handle_error(error)

@@ -187,7 +187,7 @@ function show_message(show, type, title, content)
 function get_cart()
 {
     ajax(
-        "http://127.0.0.1:8493/api/get_cart",
+        "api/get_cart",
         {},
         function(res) {cart.$data.data = res;}
     );
