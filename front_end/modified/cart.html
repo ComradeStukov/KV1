@@ -127,7 +127,7 @@ var restaurant = new Vue(
                     {"id": x},
                     function(res)
                     {
-                        show_message(true, "alert-success", "Restaurant Removed from Cart!", "SBSBSB!");
+                        show_message(true, "alert-success", "Restaurant Removed from Cart!", "You have a simpler cart !");
                         get_cart();
                     }
                 );
@@ -142,7 +142,7 @@ function remove_all()
         {},
         function(res)
         {
-            show_message(true, "alert-success", "All removed!", "SBSBSB!");
+            show_message(true, "alert-success", "All Removed!", "Your cart is now empty!");
             get_cart();
         }
     );

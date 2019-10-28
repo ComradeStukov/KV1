@@ -24,7 +24,7 @@
                 <!-- Horizontal Form -->
                 <div class="card card-secondary">
                     <div class="card-header">
-                        <h3 class="card-title"> "It makes me hungry just to look at it."</h3>
+                        <h3 class="card-title">"Now I shall eat for a day."</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -80,7 +80,7 @@
                                         <button class="btn btn-sm btn-secondary" v-on:click="add_to_cart(x.id);">Add!</button>
                                     </td>
                                 </tr>
-                                <tr v-if="!data.length"><td colspan="7" style="text-align: center">OMG! No results found!</td></tr>
+                                <tr v-if="!data.length"><td colspan="7" style="text-align: center">What? No results found!</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -175,18 +175,6 @@ var page = new Vue(
     }
 );
 var original_search = JSON.stringify(search.$data.data);
-function go_search()
-{
-    if (search.$data.data["price_min"] == "")
-        search.$data.data["price_min"] = null;
-    if (search.$data.data["price_max"] == "")
-        search.$data.data["price_max"] = null;
-    search.$data.data.tags = Array();
-    for (var x of search.$data.tags_with_name)
-        search.$data.data.tags.push(x["id"]);
-    var new_search = JSON.stringify(search.$data.data);
-    window.location.href = '/find_restaurants?search=' + encodeURIComponent(new_search) + "&page=1";
-}
 var restaurant = new Vue(
     {
         el: "#restaurant",
@@ -201,7 +189,7 @@ var restaurant = new Vue(
                     {"id": x},
                     function(res)
                     {
-                        show_message(true, "alert-success", "Restaurant Added to Cart!", "SBSBSB!");
+                        show_message(true, "alert-success", "Restaurant Added to Cart!", "Find it in your cart!");
                         get_cart();
                     }
                 );
@@ -209,5 +197,17 @@ var restaurant = new Vue(
         }
     }
 );
+function go_search()
+{
+    if (search.$data.data["price_min"] == "")
+        search.$data.data["price_min"] = null;
+    if (search.$data.data["price_max"] == "")
+        search.$data.data["price_max"] = null;
+    search.$data.data.tags = Array();
+    for (var x of search.$data.tags_with_name)
+        search.$data.data.tags.push(x["id"]);
+    var new_search = JSON.stringify(search.$data.data);
+    window.location.href = '/find_restaurants?search=' + encodeURIComponent(new_search) + "&page=1";
+}
 </script>
 {%endblock%}

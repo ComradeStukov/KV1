@@ -24,7 +24,7 @@
                 <!-- Horizontal Form -->
                 <div class="card card-success">
                     <div class="card-header">
-                        <h3 class="card-title"> "It makes me hungry just to look at it."</h3>
+                        <h3 class="card-title">"It tastes like nothing."</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -85,7 +85,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr v-if="!data.length"><td colspan="7" style="text-align: center">OMG! No results found!</td></tr>
+                                <tr v-if="!data.length"><td colspan="7" style="text-align: center">Oooops! No results found!</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -114,6 +114,40 @@ function ()
     find_tags();
 }
 );
+var tag = new Vue(
+    {
+        el: "#tag",
+        data: {
+            data:[]
+        },
+        methods: {
+            edit_tag: function(id, new_name)
+            {
+                ajax(
+                    "api/edit_tag",
+                    {"id": id, "name": new_name},
+                    function(res)
+                    {
+                        show_message(true, "alert-success", "Tag Changed!", "Hope your will remember its new name!");
+                        find_tags();
+                    }
+                );
+            },
+            delete_tag: function(id)
+            {
+                ajax(
+                    "api/delete_tag",
+                    {"id": id},
+                    function(res)
+                    {
+                        show_message(true, "alert-success", "Tag Deleted!", "A tag has gone!");
+                        find_tags();
+                    }
+                );
+            }
+        }
+    }
+);
 function find_tags()
 {
     tag.$data.data = [];
@@ -136,44 +170,10 @@ function add_tag()
         function(res)
         {
             $("#add_tag_name").val("");
-            show_message(true, "alert-success", "Tag Added!", "Wow! You have a new tag!");
+            show_message(true, "alert-success", "Tag Added!", "You now have a new tag!");
             find_tags();
         }
     );
 }
-var tag = new Vue(
-    {
-        el: "#tag",
-        data: {
-            data:[]
-        },
-        methods: {
-            edit_tag: function(id, new_name)
-            {
-                ajax(
-                    "api/edit_tag",
-                    {"id": id, "name": new_name},
-                    function(res)
-                    {
-                        show_message(true, "alert-success", "Tag Changed!", "You have successfully increased the complexity.");
-                        find_tags();
-                    }
-                );
-            },
-            delete_tag: function(id)
-            {
-                ajax(
-                    "api/delete_tag",
-                    {"id": id},
-                    function(res)
-                    {
-                        show_message(true, "alert-success", "Tag Deleted!", "Ahhh! You have deleted a tag!");
-                        find_tags();
-                    }
-                );
-            }
-        }
-    }
-);
 </script>
 {%endblock%}

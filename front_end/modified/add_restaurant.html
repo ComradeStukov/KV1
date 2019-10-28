@@ -24,7 +24,7 @@
                 <!-- Horizontal Form -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title"> “Say pal, you don't look so good. You better find something to eat before night comes!”</h3>
+                        <h3 class="card-title">"Crunchy and delicious!"</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
@@ -148,7 +148,7 @@ function add_restaurant()
         restaurant.$data.data,
         function(res)
         {
-            show_message(true, "alert-success", "Restaurant Added!", "asdfasdf");
+            show_message(true, "alert-success", "Restaurant Added!", "A new restaurant is ready!");
             restaurant.$data.data = {
                 name: "",
                 branch: "",
@@ -169,7 +169,7 @@ function add_tag()
         function(res)
         {
             $("#tag_name").val("");
-            show_message(true, "alert-success", "Tag Added!", "Wow! You have a new tag!");
+            show_message(true, "alert-success", "Tag Added!", "You now have a new tag!");
             get_all_tags();
         }
     );

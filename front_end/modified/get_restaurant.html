@@ -24,7 +24,7 @@
                 <!-- Horizontal Form -->
                 <div class="card card-info">
                     <div class="card-header">
-                        <h3 class="card-title"> "It makes me hungry just to look at it."</h3>
+                        <h3 class="card-title">"I don't know if I'm hungry enough."</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body" id="restaurant">
@@ -92,7 +92,7 @@
                 <!-- Horizontal Form -->
                 <div class="card card-info">
                     <div class="card-header">
-                        <h3 class="card-title"> "It makes me hungry just to look at it."</h3>
+                        <h3 class="card-title">"That's an entirely scientific mapping tool."</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -161,6 +161,11 @@ var restaurant = new Vue(
         }
     }
 );
+var map = new ol.Map({
+    target: 'map',
+    layers: [new ol.layer.Tile({source: new ol.source.OSM()})],
+    view: new ol.View({center: ol.proj.fromLonLat([-0.1770659, 51.498803]), zoom: 16})
+});
 function delete_restaurant(id)
 {
     ajax(
@@ -169,10 +174,5 @@ function delete_restaurant(id)
         function() {go_back();}
     );
 }
-var map = new ol.Map({
-    target: 'map',
-    layers: [new ol.layer.Tile({source: new ol.source.OSM()})],
-    view: new ol.View({center: ol.proj.fromLonLat([-0.15, 51.5]), zoom: 14})
-});
 </script>
 {%endblock%}

@@ -2,8 +2,5 @@
 
 __author__ = "chenty"
 
-from web_server.run import run
-
-
-if __name__ == "__main__":
-    run()
+from web_server.base import app
+import web_server.run
