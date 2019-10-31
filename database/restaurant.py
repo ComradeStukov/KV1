@@ -13,9 +13,9 @@ class Restaurant(Base):
     __tablename__ = "restaurant"
 
     id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
-    name = Column(String, nullable=False)
-    branch = Column(String, nullable=False)
-    postcode = Column(String, nullable=False)
+    name = Column(String(50), nullable=False)
+    branch = Column(String(50), nullable=False)
+    postcode = Column(String(15), nullable=False)
     price = Column(Integer, nullable=False)
     note = Column(Text, nullable=False)
     update_time = Column(DateTime, nullable=False)

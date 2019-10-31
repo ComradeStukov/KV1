@@ -13,7 +13,7 @@ class Tag(Base):
     __tablename__ = "tag"
 
     id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
-    name = Column(String, nullable=False)
+    name = Column(String(50), nullable=False)
 
     index_name = UniqueConstraint(name)
 

@@ -1,19 +1,31 @@
 # Mac
 .DS_Store
 
+# Swap
+*.swp
+*.bak
+
 # Pycharm
 .idea
 
 # Python
 *.py[cod]
+__pycache__
+
+# Virtual Env
+venv
+
+# Frontend Template
+front_end/template
 
 # Log
 *.log
 
 # Config file
-config.py
-uwsgi.ini
-create_database.sql
+database/config.py
+database/create_database.sql
+uwsgi/uwsgi.ini
+web_server/config.py
 
 # Socket
 *.sock
