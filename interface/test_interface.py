@@ -5,7 +5,7 @@ __author__ = "chenty"
 import unittest
 import os
 
-from database.base import initialize
+from database.initialize import initialize
 from interface.utility import end_session
 from interface.restaurant import *
 from interface.tag import *
@@ -14,7 +14,8 @@ from interface.tag import return_code as t_ret_code
 
 
 class TestInterface(unittest.TestCase):
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         initialize()
         return
 
@@ -288,6 +289,10 @@ class TestInterface(unittest.TestCase):
 
     def tearDown(self):
         end_session()
+        return
+
+    @classmethod
+    def tearDownClass(cls):
         os.remove("kv1.db")
         return
 

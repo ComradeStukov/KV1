@@ -29,3 +29,6 @@ web_server/config.py
 
 # Socket
 *.sock
+
+# SQLite
+*.db

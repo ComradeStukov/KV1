@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Generate config files from template.
 
 cd database

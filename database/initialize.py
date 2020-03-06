@@ -23,3 +23,21 @@
 # OR OTHER DEALINGS IN THE SOFTWARE.
 
 __author__ = "chenty"
+
+from database.base import Base, engine
+
+from database.restaurant import Restaurant
+from database.tag import Tag
+from database.tag_restaurant import TagRestaurant
+
+
+def initialize():
+    """
+    Initialize all tables
+    :return: None
+    """
+    Base.metadata.create_all(engine)
+    return
+
+if __name__ == "__main__":
+    initialize()

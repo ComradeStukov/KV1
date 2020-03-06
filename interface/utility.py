@@ -2,8 +2,6 @@
 
 __author__ = "chenty"
 
-import re
-
 from database.base import Session
 
 
