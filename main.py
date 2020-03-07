@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 # The MIT License (MIT)
@@ -22,6 +23,10 @@
 # OR OTHER DEALINGS IN THE SOFTWARE.
 
 __author__ = "chenty"
+
+import os
+import sys
+sys.path.append(os.getcwd())
 
 from server import config
 from server.base import app

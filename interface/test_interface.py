@@ -1,9 +1,33 @@
-# -*- encoding: utf-8 -*-
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# The MIT License (MIT)
+# Copyright (c) 2020 SBofGaySchoolBuPaAnything
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+# IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+# DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+# OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+# OR OTHER DEALINGS IN THE SOFTWARE.
 
 __author__ = "chenty"
 
-import unittest
 import os
+import sys
+sys.path.append(os.path.dirname(os.getcwd()))
+import unittest
 
 from database.initialize import initialize
 from interface.utility import end_session
@@ -14,12 +38,23 @@ from interface.tag import return_code as t_ret_code
 
 
 class TestInterface(unittest.TestCase):
+    """
+    Unit test class for logic interface
+    """
     @classmethod
     def setUpClass(cls):
+        """
+        Initialize the database before all tests
+        :return: None
+        """
         initialize()
         return
 
     def test_000_add_restaurant(self):
+        """
+        Test to add restaurants
+        :return: None
+        """
         code, res = add_restaurant("r1", "b1", "p1", 1, "", [])
         self.assertEqual(code, r_ret_code["OK"])
         self.assertEqual(res, 1)
@@ -56,6 +91,10 @@ class TestInterface(unittest.TestCase):
         return
 
     def test_001_delete_restaurant(self):
+        """
+        Test to delete restaurants
+        :return: None
+        """
         code, res = delete_restaurant(4)
         self.assertEqual(code, r_ret_code["OK"])
         self.assertEqual(res, None)
@@ -68,6 +107,10 @@ class TestInterface(unittest.TestCase):
         return
 
     def test_002_edit_restaurant(self):
+        """
+        Test to edit restaurants
+        :return: None
+        """
         code, res = edit_restaurant(1, "r", "b", "p", 1, "", [])
         self.assertEqual(code, r_ret_code["OK"])
         self.assertEqual(res, 1)
@@ -86,6 +129,10 @@ class TestInterface(unittest.TestCase):
         return
 
     def test_003_get_restaurant(self):
+        """
+        Test to get restaurants
+        :return: None
+        """
         code, res = get_restaurant(1)
         del res["update_time"]
         self.assertEqual(code, r_ret_code["OK"])
@@ -107,6 +154,10 @@ class TestInterface(unittest.TestCase):
         return
 
     def test_004_find_restaurants(self):
+        """
+        Test to find restaurants
+        :return: None
+        """
         code, res = find_restaurants("", "", None, None, [], 1)
         self.assertEqual(code, r_ret_code["OK"])
         self.assertEqual(len(res["restaurants"]), 3)
@@ -139,6 +190,10 @@ class TestInterface(unittest.TestCase):
         return
 
     def test_005_get_restaurants(self):
+        """
+        Test to get restaurants
+        :return: None
+        """
         code, res = get_restaurants([1, 2, 3])
         self.assertEqual(code, r_ret_code["OK"])
         self.assertEqual(res[0]["id"], 1)
@@ -157,6 +212,10 @@ class TestInterface(unittest.TestCase):
         return
 
     def test_006_add_tag(self):
+        """
+        Test to add tags
+        :return: None
+        """
         code, res = add_tag("t1")
         self.assertEqual(code, t_ret_code["OK"])
         self.assertEqual(res, {"id": 1, "name": "t1"})
@@ -185,6 +244,10 @@ class TestInterface(unittest.TestCase):
         return
 
     def test_007_delete_tag(self):
+        """
+        Test to delete tags
+        :return: None
+        """
         code, res = delete_tag(3)
         self.assertEqual(code, t_ret_code["OK"])
         self.assertEqual(res, 3)
@@ -207,6 +270,10 @@ class TestInterface(unittest.TestCase):
         return
 
     def test_008_edit_tag(self):
+        """
+        Test to edit tags
+        :return: None
+        """
         code, res = edit_tag(1, "t")
         self.assertEqual(code, t_ret_code["OK"])
         self.assertEqual(res, {"id": 1, "name": "t"})
@@ -231,6 +298,10 @@ class TestInterface(unittest.TestCase):
         return
 
     def test_009_get_tags(self):
+        """
+        Test to get tags
+        :return: None
+        """
         code, res = get_tags([])
         self.assertEqual(code, t_ret_code["OK"])
         self.assertEqual(len(res), 0)
@@ -258,6 +329,10 @@ class TestInterface(unittest.TestCase):
         return
 
     def test_010_find_tags(self):
+        """
+        Test to find tags
+        :return: None
+        """
         code, res = find_tags("")
         self.assertEqual(code, t_ret_code["OK"])
         self.assertEqual(len(res), 2)
@@ -288,11 +363,19 @@ class TestInterface(unittest.TestCase):
         return
 
     def tearDown(self):
+        """
+        Remove session after each test
+        :return: None
+        """
         end_session()
         return
 
     @classmethod
     def tearDownClass(cls):
+        """
+        Remove the database after all tests
+        :return: None
+        """
         os.remove("kv1.db")
         return
 

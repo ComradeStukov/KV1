@@ -24,8 +24,11 @@
 
 __author__ = "chenty"
 
-from database.base import Base, engine
+import os
+import sys
+sys.path.append(os.path.dirname(os.getcwd()))
 
+from database.base import Base, engine
 from database.restaurant import Restaurant
 from database.tag import Tag
 from database.tag_restaurant import TagRestaurant
