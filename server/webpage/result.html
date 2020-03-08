@@ -61,6 +61,7 @@
 $(
 function ()
 {
+    // Get the selection result
     $.ajax({
         url: "api/get_result",
         type: "POST",
@@ -69,6 +70,7 @@ function ()
         dataType: "json",
         success: function (data)
         {
+            // Show the result
             if (!data["code"])
             {
                 restaurant.$data.data = data["res"];
@@ -78,11 +80,15 @@ function ()
                 restaurant.$data.done = false;
         },
         error: function (error) {restaurant.$data.done = false;},
-        xhrFields: {withCredentials: test},
-        crossDomain: test
+        xhrFields: {withCredentials: false},
+        crossDomain: false
     });
 }
 );
+
+/**
+ * Make a selection again
+ */
 function again()
 {
     $.ajax({
@@ -93,16 +99,19 @@ function again()
         dataType: "json",
         success: function (data)
         {
+            // Refresh the page on success
             if (!data["code"])
                 window.location.href = "result";
             else
                 restaurant.$data.done = false;
         },
         error: function (error) {restaurant.$data.done = false;},
-        xhrFields: {withCredentials: test},
-        crossDomain: test
+        xhrFields: {withCredentials: false},
+        crossDomain: false
     });
 }
+
+// Vue object for restaurant
 var restaurant = new Vue(
     {
         el: "#restaurant",

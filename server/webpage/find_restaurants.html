@@ -114,9 +114,11 @@
 $(
 function ()
 {
+    // Initialize view
     document.title = "Don't Starve! - Find Restaurants";
     $("body").css({"min-width": "600px"});
     $("#nav_find_restaurants").addClass("active");
+    // Find restaurant and tags according to give condition
     ajax(
         "api/find_restaurants",
         search.$data.data,
@@ -130,7 +132,7 @@ function ()
     ajax(
         "api/find_tags",
         {},
-        function(res){search.$data.all_tags = res;}
+        function(res) {search.$data.all_tags = res;}
     );
     ajax(
         "api/get_tags",
@@ -139,6 +141,8 @@ function ()
     );
 }
 );
+
+// Vue object for search condition
 var search = new Vue(
     {
         el: "#search",
@@ -146,6 +150,7 @@ var search = new Vue(
             Multiselect: window.VueMultiselect.default
         },
         data: {
+            // These will be rendered by flask
             data: {
                 name_query: "{%if "name_query" in search%}[[search["name_query"] ]]{%else%}{%endif%}",
                 postcode_prefix: "{%if "postcode_prefix" in search%}[[search["postcode_prefix"] ]]{%else%}{%endif%}",
@@ -159,6 +164,8 @@ var search = new Vue(
         }
     }
 );
+
+// Vue object for page selection
 var page = new Vue(
     {
         el: "#page",
@@ -175,6 +182,8 @@ var page = new Vue(
         }
     }
 );
+
+// Keep an backup for original search condition
 var original_search = JSON.stringify(search.$data.data);
 var restaurant = new Vue(
     {
@@ -183,6 +192,7 @@ var restaurant = new Vue(
             data:[]
         },
         methods: {
+            // Add a restaurant to the cart
             add_to_cart: function(x)
             {
                 ajax(
@@ -198,8 +208,13 @@ var restaurant = new Vue(
         }
     }
 );
+
+/**
+ * Search the restaurant
+ */
 function go_search()
 {
+	// Convert necessary fields
     if (search.$data.data["min_price"] === "")
         search.$data.data["min_price"] = null;
     else
@@ -211,6 +226,7 @@ function go_search()
     search.$data.data.tags = Array();
     for (var x of search.$data.tags_with_name)
         search.$data.data.tags.push(x["id"]);
+	// Search the updated conditions by refreshing the page with new parameters
     var new_search = JSON.stringify(search.$data.data);
     window.location.href = 'find_restaurants?search=' + encodeURIComponent(new_search) + "&page=1";
 }

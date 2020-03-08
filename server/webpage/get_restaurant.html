@@ -116,18 +116,22 @@
 $(
 function ()
 {
+    // Initialize view
     document.title = "Don't Starve! - View Restaurant";
+    // Get restaurant through ajax
     ajax(
         "api/get_restaurant",
         {"id": restaurant.$data.data.id},
         function(res)
         {
             restaurant.$data.data = res;
+            // If success, invoke another ajax to get the coordinate of the postcode
             ajax(
                 "api/get_postcode_coord",
                 {"postcode": restaurant.$data.data.postcode},
                 function(res)
                 {
+                    // Update the map according to the coordinate
                     map.setView(new ol.View({center: ol.proj.fromLonLat(res), zoom: 17}));
                     var style = new ol.style.Style({
                         image: new ol.style.Circle({
@@ -145,6 +149,8 @@ function ()
     );
 }
 );
+
+// Vue object for restaurant
 var restaurant = new Vue(
     {
         el: "#restaurant",
@@ -161,13 +167,21 @@ var restaurant = new Vue(
         }
     }
 );
+
+// Map object for map display
 var map = new ol.Map({
     target: 'map',
     layers: [new ol.layer.Tile({source: new ol.source.OSM()})],
     view: new ol.View({center: ol.proj.fromLonLat([-0.1770659, 51.498803]), zoom: 16})
 });
+
+/**
+ * Delete a restaurant
+ * @param id Restaurant id
+ */
 function delete_restaurant(id)
 {
+    // Delete it through ajax
     ajax(
         "api/delete_restaurant",
         {"id": restaurant.$data.data.id},

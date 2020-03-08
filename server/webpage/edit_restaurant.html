@@ -110,7 +110,9 @@
 $(
 function ()
 {
+    // Initialize view
     document.title = "Don't Starve! - Edit Restaurant";
+    // Get restaurant and tag information
     ajax(
         "api/get_restaurant",
         {"id": restaurant.$data.data.id},
@@ -126,6 +128,8 @@ function ()
     get_all_tags();
 }
 );
+
+// Vue object for the restaurant
 var restaurant = new Vue(
     {
         el: "#restaurant",
@@ -147,33 +151,50 @@ var restaurant = new Vue(
         }
     }
 );
+
+/**
+ * Get tags information
+ */
 function get_all_tags()
 {
+    // Use ajax to get
     ajax(
         "api/find_tags",
         {},
         function(res){restaurant.$data.all_tags = res;}
     );
 }
+
+/**
+ * Edit restaurant information
+ */
 function edit_restaurant()
 {
+    // Convert some necessary fields
     restaurant.$data.data.price = parseInt(restaurant.$data.data.price);
     restaurant.$data.data.tags = Array();
     for (var x of restaurant.$data.tags_with_name)
         restaurant.$data.data.tags.push(x["id"]);
+    // Use ajax to change information, and return to information view page
     ajax(
         "api/edit_restaurant",
         restaurant.$data.data,
         function(res) {go_back();}
     );
 }
+
+/**
+ * Add a tag to back end
+ */
 function add_tag()
 {
+    // Do this by ajax
     ajax(
         "api/add_tag",
         {"name": $("#tag_name").val()},
         function(res)
         {
+            // Show message and refetch all tags upon success
             $("#tag_name").val("");
             show_message(true, "alert-success", "Tag Added!", "You now have a new tag!");
             get_all_tags();

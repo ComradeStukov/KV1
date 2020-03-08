@@ -98,11 +98,14 @@
 $(
 function ()
 {
+    // Initialize view
     document.title = "Don't Starve! - Restaurant Cart";
     $("body").css({"min-width": "800px"});
     $("#nav_cart").addClass("active");
 }
 );
+
+// Vue object for restaurants in the cart
 var restaurant = new Vue(
     {
         el: "#restaurant",
@@ -115,6 +118,7 @@ var restaurant = new Vue(
         methods: {
             adjust_weight: function(x, delta)
             {
+                // When adjusting weight, use ajax to do this
                 ajax(
                     "api/edit_cart",
                     {"id": x, "delta": delta},
@@ -123,6 +127,7 @@ var restaurant = new Vue(
             },
             remove_from_cart: function(x)
             {
+                // When removing from cart, use ajax to do this
                 ajax(
                     "api/delete_cart",
                     {"id": x},
@@ -136,8 +141,13 @@ var restaurant = new Vue(
         }
     }
 );
+
+/**
+ * Clean the cart
+ */
 function remove_all()
 {
+    // Use ajax to clean the cart
     ajax(
         "api/clean_cart",
         {},
@@ -148,8 +158,13 @@ function remove_all()
         }
     );
 }
+
+/**
+ * Get the result of random selection
+ */
 function result()
 {
+    // Invoke the request, and redirect to the result page
     ajax(
         "api/clean_result",
         {},

@@ -35,7 +35,7 @@
                     <i class="fa fa-shopping-cart"></i>
                     <span class="badge badge-warning navbar-badge">{{data.length}}</span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
                     <span class="dropdown-item-text dropdown-header"><b>Restaurant Cart</b></span>
                     <div class="dropdown-divider"></div>
                     <span class="dropdown-item-text" v-for="c in data">
@@ -155,11 +155,15 @@
 $(
 function ()
 {
+    // Initialize view
     // $("#frame").load("[[frame]]");
     $('html,body').animate({scrollTop: 0}, 500);
+    // Get the cart
     get_cart();
 }
 );
+
+// Vue object for message
 var message = new Vue({
     el: "#message",
     data: {
@@ -169,21 +173,36 @@ var message = new Vue({
         "content": ""
     }
 });
+
+// Vue object for cart
 var cart = new Vue({
     el: "#cart",
     data: {
         data: []
     }
 });
+
+/**
+ * Show message on the top of the page
+ * @param show If the message should be shown
+ * @param type Type lf the message
+ * @param title Message title
+ * @param content Message content
+ */
 function show_message(show, type, title, content)
 {
     message.$data["show"] = show;
     message.$data["type"] = type;
     message.$data["title"] = title;
     message.$data["content"] = content;
+    // Scroll to top, it the message is shown
     if (show)
         $('html,body').animate({scrollTop: 0}, 500);
 }
+
+/**
+ * Get current cart through ajax
+ */
 function get_cart()
 {
     ajax(
