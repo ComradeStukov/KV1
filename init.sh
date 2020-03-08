@@ -10,7 +10,7 @@ cd uwsgi
 cp uwsgi_template.ini uwsgi.ini
 cd ..
 
-cd web_server
+cd server
 cp config_template.py config.py
 cd ..
 
