@@ -55,23 +55,23 @@ def get_session(func):
             if commit:
                 session.commit()
             else:
-                session_roll_back(session)
+                session_rollback(session)
             return code, res
         except Exception:
             # Roll back when meets an exception
-            session_roll_back(session)
+            session_rollback(session)
             traceback.print_exc()
             return -1, None
     return ret_func
 
-def session_roll_back(session):
+def session_rollback(session):
     """
     Roll back, ignoring exception
     :param session: The database session
     :return: None
     """
     try:
-        session.roll_back()
+        session.rollback()
     except Exception:
         traceback.print_exc()
     return
