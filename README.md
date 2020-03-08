@@ -8,7 +8,7 @@ where should you have dinner, you can make a weighted random selection on this p
 - Clone the repository
 
 ```
-git clone https://github.com/ComradeStukov/KV2
+git clone https://github.com/ComradeStukov/KV1
 ```
 
 - Run the initialization script.
