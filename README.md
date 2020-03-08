@@ -25,7 +25,11 @@ bash init.sh
 - Generate database tables.
 
 ```
-python3 database/intialize.py
+source venv/bin/activate
+cd database
+python3 initialize.py
+cd ..
+deactivate
 ```
 
 - Optionally, if your are using Nginx as web server, you can modify the config file for Nginx as the following:
@@ -53,6 +57,15 @@ http {
     }
     ...
 }
+...
+```
+
+and modify your uwsgi config file **uwsgi/uwsgi.ini** as the following:
+
+```
+...
+# module = main:app
+mount = /dont_starve=main:app
 ...
 ```
 
@@ -97,6 +110,10 @@ weighted random selection result.
 ![Result](img/result.png)
 
 You can view the selected restaurant details by **THAT'S IT!** button, or make another choice by **AGAIN** button.
+
+## Example
+
+An example website can be found at [Don't Starve!](http://104.238.136.94/dont_starve/).
 
 ## Acknowledgement
 
